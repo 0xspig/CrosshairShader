@@ -6,18 +6,19 @@ Create a ColorRect, set the size to your resolution so it covers the entire view
 
 ## Customization
 Colors, size, spacing, etc. are editable in shader params. 
-`
-inverted`option overrides all color and replaces it with an inverted screenbuffer. 
 
-`on_enemy` toggles between `color` and `enemy_color`. Example usage:
+`inverted`option overrides all color and replaces it with an inverted screenbuffer. 
 
-    var target = $Camera/RayCast.get_collider()
-	if target != null && target.is_in_group("enemy"):
-		 $Crosshair.material.set_shader_param("on_enemy", true)
-	else:	  
-     $Crosshair.material.set_shader_param("on_enemy", false)`
+`color_id` enables `color_%id`. Example usage (sets active color to color_1 when a raycast is intersecting an enemey):
+
+    var cursor_object = $UpperCollider/Camera/RayCast.get_collider()
+	if cursor_object == null:
+		$HUD/Crosshair.material.set_shader_param("color_id", 0)
+	elif cursor_object.is_in_group("enemy"):
+		print("enemy")
+		$HUD/Crosshair.material.set_shader_param("color_id", 1)
       
-`spread` determines the factor of spacing. The space between each section is `spacing * spread`. 1 is the default value. Example usage:
+`spread` determines the factor of spacing. The space between each section is `spacing * spread`. 1 is the default value. Example usage (spread dependent on player velocity):
 
     var spread = velocity.length()/2 + 1
 	$Crosshair.material.set_shader_param("spread", spread)
