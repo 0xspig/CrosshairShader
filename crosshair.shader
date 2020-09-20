@@ -2,9 +2,10 @@ shader_type canvas_item;
 
 uniform bool center_enabled = true;
 uniform bool inverted = false;
-uniform bool on_enemy = false;
-uniform vec4 color = vec4(0., 1, 0., 1.);
-uniform vec4 enemy_color = vec4(1., 0., 0., 1.);
+uniform int color_id = 0;
+uniform vec4 color_0 = vec4(0., 1, 0., 1.);
+uniform vec4 color_1 = vec4(1., 0., 0., 1.);
+uniform vec4 color_2 = vec4(0., 0., 1., 1.);
 uniform float width = .003;
 uniform float len = .03;
 uniform float spacing = .008;
@@ -35,7 +36,7 @@ void fragment(){
 		crosshair = h + v + point;
 	}
 	if(!inverted){
-		COLOR = (color * float(!on_enemy) + enemy_color * float(on_enemy)) * crosshair;
+		COLOR = (color_0 * float(color_id == 0) + color_1 * float(color_id == 1) + color_2 * float(color_id == 2)) * crosshair;
 	}else{
 		COLOR = vec4((cos(textureLod(SCREEN_TEXTURE, SCREEN_UV, 0.0).rgb * 3.1415926534) + 1.)/2., 1.) * crosshair;
 	}
